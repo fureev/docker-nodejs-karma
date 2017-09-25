@@ -1,3 +1,4 @@
+[Docker hub](https://hub.docker.com/r/fureev/ng2-ready/)
 A [Docker](https://www.docker.com/) container with
 
 - node 8
@@ -6,6 +7,6 @@ A [Docker](https://www.docker.com/) container with
 
 
 ```bash
-$ docker run -it
+$ docker run -i -t
 Starting virtual X frame buffer: Xvfb
 ```
