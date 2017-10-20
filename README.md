@@ -1,10 +1,9 @@
 [Docker hub](https://hub.docker.com/r/fureev/node-ready/)
 A [Docker](https://www.docker.com/) container with
 
-- node 8 latest
-- chrome 56 for karma headless testing
+- php 5 fpm latest
+- memcache, soap, ldap
 
 ```bash
-$ docker run -it node-chrome /bin/bash
-Starting virtual X frame buffer: Xvfb
+$ docker run -it --rm php-ready /bin/bash
 ```

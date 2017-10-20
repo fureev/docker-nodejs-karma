@@ -1,34 +1,20 @@
-FROM node:8
+FROM php:5-fpm
 
-<<<<<<< Updated upstream
-# Install Google Chrome
-RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update && apt-get install -y Xvfb google-chrome-stable \
-=======
-# Install Chrome 56
-RUN wget --progress=bar -O /tmp/chrome-56.deb https://www.slimjet.com/chrome/download-chrome.php?file=lnx%2Fchrome64_56.0.2924.87.deb \
-    && apt-get -qq update && apt-get install -y Xvfb libpango1.0-0 libpangox-1.0-0 libpangoxft-1.0-0 libnspr4 libnspr4-0d gconf-service libasound2 libatk1.0-0 libcups2 libdbus-1-3 libgconf-2-4 libgtk2.0-0 libnss3 libnss3-1d libxss1 libxtst6 fonts-liberation libappindicator1 xdg-utils \
-    && dpkg -i /tmp/chrome-56.deb \
->>>>>>> Stashed changes
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN apt-get -qq update -y && apt-get -qq install -y --no-install-recommends \
+    libldap2-dev \
+    libxml2-dev \
+    libssl-dev \
+    libpcre3 \
+    libpcre3-dev \
+    zlib1g-dev
 
-ADD xvfb.sh /etc/init.d/xvfb
-ADD entrypoint.sh /entrypoint.sh
+RUN set -ex && pecl install \
+    memcache \
+    && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
+    && docker-php-ext-install mbstring soap ldap \
+    && docker-php-ext-enable memcache
 
-RUN chmod +x /usr/bin/Xvfb \
-    && chmod +x /entrypoint.sh
-RUN touch /var/run/xvfb.pid \
-    && chown node:node /var/run/xvfb.pid /usr/bin/Xvfb
-
-USER node
-
-ENV DISPLAY :99.0
-ENV CHROME_BIN /usr/bin/google-chrome
-
-<<<<<<< Updated upstream
-RUN yarn global add @angular/cli@latest && rm -rf $(yarn cache dir)
-
-=======
->>>>>>> Stashed changes
-ENTRYPOINT ["/entrypoint.sh"]
+RUN apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/pear
