@@ -1,12 +1,10 @@
-[Docker hub](https://hub.docker.com/r/fureev/ng2-ready/)
+[Docker hub](https://hub.docker.com/r/fureev/node-ready/)
 A [Docker](https://www.docker.com/) container with
 
-- node 8
-- chrome for karma headless testing
-- angular-cli latest
-
+- node 8 latest
+- chrome latest for karma headless testing
 
 ```bash
-$ docker run -i -t
+$ docker run -it node-chrome /bin/bash
 Starting virtual X frame buffer: Xvfb
 ```
