@@ -1,21 +1,9 @@
-FROM node:8
+FROM alpine:latest
 
-# Install Google Chrome
-RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
-    && sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list' \
-    && apt-get update && apt-get install -y Xvfb google-chrome-stable --no-install-recommends \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ADD xvfb.sh /etc/init.d/xvfb
-ADD entrypoint.sh /entrypoint.sh
-
-RUN chmod +x /usr/bin/Xvfb \
-    && chmod +x /entrypoint.sh \
-    && touch /var/run/xvfb.pid
-
-USER node
-
-ENV DISPLAY :99.0
-ENV CHROME_BIN /usr/bin/google-chrome
-
-ENTRYPOINT ["/entrypoint.sh"]
+RUN apk update && apk add --no-cache \
+        ca-certificates \
+        bash \
+        curl \
+        rsync \
+        openssh \
+    && rm -rf /var/cache/apk/*
