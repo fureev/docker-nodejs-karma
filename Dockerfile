@@ -40,6 +40,17 @@ RUN set -ex && pecl install imagick \
     && docker-php-ext-install mbstring soap ldap redis \
     && docker-php-ext-enable imagick
 
+# Add php code style support
+ADD http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar /usr/local/bin/php-cs-fixer
+ADD https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar /usr/local/bin/phpcs
+ADD https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar /usr/local/bin/phpcbf
+# Parallel-lint boxed locally: https://github.com/JakubOnderka/PHP-Parallel-Lint#create-phar-package
+ADD parallel-lint.phar /usr/local/bin/phplint
+RUN chmod 755 /usr/local/bin/php-cs-fixer \
+              /usr/local/bin/phpcs \
+              /usr/local/bin/phpcs \
+              /usr/local/bin/phplint
+
 RUN apt-get autoremove -y \
     && apt-get clean -y \
     && rm -rf /var/lib/apt/lists/* \
