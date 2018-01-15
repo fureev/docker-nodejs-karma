@@ -44,12 +44,14 @@ RUN set -ex && pecl install imagick \
 ADD http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar /usr/local/bin/php-cs-fixer
 ADD https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar /usr/local/bin/phpcs
 ADD https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar /usr/local/bin/phpcbf
+ADD CodeSniffer.conf /usr/local/bin/CodeSniffer.conf
 # Parallel-lint boxed locally: https://github.com/JakubOnderka/PHP-Parallel-Lint#create-phar-package
 ADD parallel-lint.phar /usr/local/bin/phplint
 RUN chmod 755 /usr/local/bin/php-cs-fixer \
               /usr/local/bin/phpcs \
-              /usr/local/bin/phpcs \
-              /usr/local/bin/phplint
+              /usr/local/bin/phpcbf \
+              /usr/local/bin/phplint \
+              /usr/local/bin/CodeSniffer.conf
 
 RUN apt-get autoremove -y \
     && apt-get clean -y \
