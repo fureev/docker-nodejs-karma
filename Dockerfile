@@ -1,6 +1,7 @@
 FROM php:7-fpm
 
 ENV PHPREDIS_VERSION 3.1.6
+ENV PHPUNIT_VERSION 7.0.0
 
 RUN apt-get -qq update -y && DEBIAN_FRONTEND=noninteractive apt-get -qq install -y --no-install-recommends \
     unzip \
@@ -45,12 +46,14 @@ ADD http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar /usr/local/bin/php-cs
 ADD https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar /usr/local/bin/phpcs
 ADD https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar /usr/local/bin/phpcbf
 ADD CodeSniffer.conf /usr/local/bin/CodeSniffer.conf
+ADD https://phar.phpunit.de/phpunit-$PHPUNIT_VERSION.phar /usr/local/bin/phpunit
 # Parallel-lint boxed locally: https://github.com/JakubOnderka/PHP-Parallel-Lint#create-phar-package
 ADD parallel-lint.phar /usr/local/bin/phplint
 RUN chmod 755 /usr/local/bin/php-cs-fixer \
               /usr/local/bin/phpcs \
               /usr/local/bin/phpcbf \
               /usr/local/bin/phplint \
+              /usr/local/bin/phpunit \
               /usr/local/bin/CodeSniffer.conf
 
 RUN apt-get autoremove -y \
