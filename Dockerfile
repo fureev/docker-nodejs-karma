@@ -10,11 +10,8 @@ ADD xvfb.sh /etc/init.d/xvfb
 ADD entrypoint.sh /entrypoint.sh
 
 RUN chmod +x /usr/bin/Xvfb \
-    && chmod +x /entrypoint.sh
-RUN touch /var/run/xvfb.pid \
-    && chown node:node /var/run/xvfb.pid /usr/bin/Xvfb
-
-USER node
+    && chmod +x /entrypoint.sh \
+    && touch /var/run/xvfb.pid
 
 ENV DISPLAY :99.0
 ENV CHROME_BIN /usr/bin/google-chrome
