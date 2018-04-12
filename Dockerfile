@@ -13,6 +13,7 @@ RUN apt-get -qq update -y && DEBIAN_FRONTEND=noninteractive apt-get -qq install 
     libssl-dev \
     libpcre3 \
     libpcre3-dev \
+    libmemcached-dev \
     zlib1g-dev \
     libmagickwand-dev \
     imagemagick \
@@ -36,10 +37,10 @@ RUN mkdir -p /usr/src/php/ext/redis \
     && curl -L https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz | tar xvz -C /usr/src/php/ext/redis --strip 1 \
     && echo 'redis' >> /usr/src/php-available-exts
 
-RUN set -ex && pecl install imagick \
+RUN set -ex && pecl install imagick memcached \
     && docker-php-ext-configure ldap --with-libdir=lib/x86_64-linux-gnu/ \
     && docker-php-ext-install mbstring soap ldap redis \
-    && docker-php-ext-enable imagick
+    && docker-php-ext-enable imagick memcached
 
 # Add php code style support
 ADD http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar /usr/local/bin/php-cs-fixer
