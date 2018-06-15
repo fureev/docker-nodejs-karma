@@ -6,6 +6,10 @@ RUN wget --progress=bar -O /tmp/chrome-56.deb https://www.slimjet.com/chrome/dow
     && dpkg -i /tmp/chrome-56.deb \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Install chromedriver for e2e tests to: /usr/local/lib/node_modules/webdriver-manager/selenium/chromedriver_2.27
+RUN npm install -g webdriver-manager
+RUN webdriver-manager update --standalone false --gecko false --versions.chrome=2.27
+
 ADD xvfb.sh /etc/init.d/xvfb
 ADD entrypoint.sh /entrypoint.sh
 
