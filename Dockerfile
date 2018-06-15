@@ -6,6 +6,10 @@ RUN curl https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
     && apt-get update && apt-get install -y Xvfb google-chrome-stable --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Install chromedriver for e2e tests to: /usr/local/lib/node_modules/webdriver-manager/selenium/chromedriver_*
+RUN npm install -g webdriver-manager
+RUN webdriver-manager update --standalone false --gecko false
+
 ADD xvfb.sh /etc/init.d/xvfb
 ADD entrypoint.sh /entrypoint.sh
 
